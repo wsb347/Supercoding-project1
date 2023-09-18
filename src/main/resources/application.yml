@@ -1,0 +1,18 @@
+jwt:
+  issuer: superCoding
+  secret: superCodingBoardProject
+
+spring:
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        hbm2ddl:
+          auto: update
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+  datasource:
+    url: jdbc:mysql://localhost:3306/board
+    password: 12341234
+    username: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
