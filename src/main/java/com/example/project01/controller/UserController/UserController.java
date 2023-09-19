@@ -10,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ResourceBundle;
 
 @RestController
@@ -48,8 +49,17 @@ public class UserController {
 
     }
 
-//    @PostMapping("/logout")
-//    public Response userLogout()
+    @PostMapping("/logout")
+    public Response userLogout(@RequestHeader("Token") String token){
+        String userLogout = userService.userLogout(token.substring(7));
+
+        Response response = new Response();
+
+
+       response.setMassage(userLogout);
+
+        return response;
+    }
 
 
 }

@@ -7,9 +7,12 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.project01.controller.Dto.UserDto;
+import com.example.project01.repository.UserRepository.UserRepository;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -23,7 +26,10 @@ import java.util.Map;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class JwtService {
+
+    private final UserRepository userRepository;
 
     @Value("${jwt.secret}")
     private String secretKey;
@@ -43,7 +49,7 @@ public class JwtService {
 //    }
 
     // Create JWT
-    public String encode(UserDto userDto){
+    public String encode(UserDto userDto) {
         LocalDateTime expiredAt = LocalDateTime.now().plusWeeks(4L);
         Date date = Timestamp.valueOf(expiredAt);
 
@@ -56,6 +62,41 @@ public class JwtService {
                 .compact();
     }
 
+
+    public boolean isTokenExpired(String token) {
+        try {
+            Claims claims = Jwts.parser()
+                    .setSigningKey(secretKey)
+                    .parseClaimsJwt(token)
+                    .getBody();
+            Date expirationDate = claims.getExpiration();
+            Date currentDate = new Date();
+
+            return expirationDate.before(currentDate);
+        } catch (ExpiredJwtException e) {
+
+            return true;
+        }
+    }
+
+    public boolean isPresent(String token) {
+
+        Claims claims = Jwts.parser()
+                .setSigningKey(secretKey)
+                .parseClaimsJwt(token)
+                .getBody();
+        String email = claims.getSubject();
+
+        return userRepository.findByEmail(email).isPresent();
+
+
+
+    }
+
+
+
+
+    }
 //    public Map<String, String> decode(String token){
 //        try{
 //            DecodedJWT jwt = jwtVerifier.verify(token);
@@ -65,4 +106,4 @@ public class JwtService {
 //            return null;
 //        }
 
-}
+
