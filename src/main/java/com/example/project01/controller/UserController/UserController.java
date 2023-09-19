@@ -42,8 +42,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Response> userLogin(@RequestBody UserDto userDto,
-                                              UserDto user){
+    public ResponseEntity<Response> userLogin(@RequestBody UserDto userDto){
         Response signupResponse = new Response();
         signupResponse.setMassage("로그인이 성공적으로 완료되었습니다.");
 
