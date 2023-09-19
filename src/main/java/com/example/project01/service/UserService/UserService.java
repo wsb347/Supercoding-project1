@@ -14,8 +14,7 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final JwtService  jwtService;
-
+    private final JwtService jwtService;
 
 
     public void saveUser(UserDto userDto) {
@@ -25,13 +24,20 @@ public class UserService {
 
     public String userLogout(String token) {
         boolean tokenExpired;
+
         if (jwtService.isTokenExpired(token)) tokenExpired = true;
         else tokenExpired = false;
+
         boolean present = jwtService.isPresent(token);
-        if(tokenExpired){
+
+        if(!present){
+            return "가입되지 않은 정보입니다.";
+        }
+
+        if (tokenExpired) {
             return "만료된 토큰";
-        } else if (present) {
-            return "이미 존재";
-        } return null;
+        }
+        return "로그아웃 되었습니다";
     }
 }
+

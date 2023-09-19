@@ -67,12 +67,12 @@ public class JwtService {
         try {
             Claims claims = Jwts.parser()
                     .setSigningKey(secretKey)
-                    .parseClaimsJwt(token)
+                    .parseClaimsJws(token)
                     .getBody();
             Date expirationDate = claims.getExpiration();
             Date currentDate = new Date();
 
-            return expirationDate.before(currentDate);
+            return expirationDate.before(currentDate); // false
         } catch (ExpiredJwtException e) {
 
             return true;
@@ -83,11 +83,13 @@ public class JwtService {
 
         Claims claims = Jwts.parser()
                 .setSigningKey(secretKey)
-                .parseClaimsJwt(token)
+                .parseClaimsJws(token)
                 .getBody();
         String email = claims.getSubject();
 
         return userRepository.findByEmail(email).isPresent();
+        // DB에 존재하면 true,
+        // 없으면 false
 
 
 
