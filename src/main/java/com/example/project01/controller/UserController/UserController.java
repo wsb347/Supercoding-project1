@@ -8,11 +8,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ResourceBundle;
 
 @RestController
@@ -28,11 +26,7 @@ public class UserController {
     public ResponseEntity<Response> signup(@RequestBody UserDto userDto)
     {
         userService.saveUser(userDto);
-        String password = jwtService.encode(userDto.getPassword());
-
         HttpHeaders headers = new HttpHeaders();
-        headers.setBearerAuth(password);
-
         Response signupResponse = new Response();
         signupResponse.setMassage("회원가입이 완료되었습니다.");
 
@@ -48,11 +42,24 @@ public class UserController {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        String encoded = jwtService.encode(userDto.getPassword());
+        String encoded = jwtService.encode(userDto);
         headers.setBearerAuth(encoded);
 
         return ResponseEntity.ok().headers(headers).body(signupResponse);
 
-
     }
+
+    @PostMapping("/logout")
+    public Response userLogout(@RequestHeader("Token") String token){
+        String userLogout = userService.userLogout(token.substring(7));
+
+        Response response = new Response();
+
+
+       response.setMassage(userLogout);
+
+        return response;
+    }
+
+
 }
