@@ -6,6 +6,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.example.project01.Entity.UserEntity;
 import com.example.project01.controller.Dto.UserDto;
 import com.example.project01.repository.UserRepository.UserRepository;
 import io.jsonwebtoken.Claims;
@@ -23,6 +24,7 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -34,32 +36,24 @@ public class JwtService {
     @Value("${jwt.secret}")
     private String secretKey;
 
-//    @Value("${jwt.issuer}")
-//    private String issuer;
-//
-//    public static final String CLAIM_NAME_MEMBER_PASSWORD = "MemberPassword";
-//    private Algorithm algorithm;
-//    private JWTVerifier jwtVerifier;
-
-//    @PostConstruct
-//    private void init(){
-//        algorithm = Algorithm.HMAC256(secretKey);
-//        jwtVerifier = JWT.require(algorithm).build();
-//
-//    }
 
     // Create JWT
     public String encode(UserDto userDto) {
-        LocalDateTime expiredAt = LocalDateTime.now().plusWeeks(4L);
-        Date date = Timestamp.valueOf(expiredAt);
+        Optional<UserEntity> byEmailAndPassword = userRepository.findByEmailAndPassword(userDto.getEmail(), userDto.getPassword());
+        if(byEmailAndPassword.isPresent()) {
+            LocalDateTime expiredAt = LocalDateTime.now().plusMinutes(10);
+            Date date = Timestamp.valueOf(expiredAt);
 
-        Claims claims = Jwts.claims().setSubject(userDto.getEmail());
+            Claims claims = Jwts.claims().setSubject(userDto.getEmail());
 
-        return Jwts.builder().setClaims(claims)
-                .setIssuedAt(new Date())
-                .setExpiration(date)
-                .signWith(SignatureAlgorithm.HS256, secretKey)
-                .compact();
+            return Jwts.builder().setClaims(claims)
+                    .setId(userDto.getPassword())
+                    .setIssuedAt(new Date())
+                    .setExpiration(date)
+                    .signWith(SignatureAlgorithm.HS256, secretKey)
+                    .compact();
+        } else return null;
+
     }
 
 
@@ -99,13 +93,6 @@ public class JwtService {
 
 
     }
-//    public Map<String, String> decode(String token){
-//        try{
-//            DecodedJWT jwt = jwtVerifier.verify(token);
-//            return Map.of(CLAIM_NAME_MEMBER_PASSWORD, jwt.getClaim(CLAIM_NAME_MEMBER_PASSWORD).toString());
-//        }catch (JWTVerificationException e){
-//            log.warn("Failed to decode jwt. token: {}", token, e);
-//            return null;
-//        }
+
 
 

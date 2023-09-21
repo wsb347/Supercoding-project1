@@ -25,10 +25,10 @@ public class UserController {
     @PostMapping("/signup")
     public ResponseEntity<Response> signup(@RequestBody UserDto userDto)
     {
-        userService.saveUser(userDto);
+        String signup = userService.saveUser(userDto);
         HttpHeaders headers = new HttpHeaders();
         Response signupResponse = new Response();
-        signupResponse.setMassage("회원가입이 완료되었습니다.");
+        signupResponse.setMassage(signup);
 
         return ResponseEntity.ok()
                 .headers(headers)
@@ -38,14 +38,19 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<Response> userLogin(@RequestBody UserDto userDto){
         Response signupResponse = new Response();
-        signupResponse.setMassage("로그인이 성공적으로 완료되었습니다.");
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        String encoded = jwtService.encode(userDto);
-        headers.setBearerAuth(encoded);
+        if(jwtService.encode(userDto) != null) {
+            HttpHeaders headers = new HttpHeaders();
 
-        return ResponseEntity.ok().headers(headers).body(signupResponse);
+            String encoded = jwtService.encode(userDto);
+            headers.setBearerAuth(encoded);
+            signupResponse.setMassage("로그인 성공, JWT 생성이 완료되었습니다");
+            return ResponseEntity.status(200).headers(headers).body(signupResponse);
+
+        } else
+            signupResponse.setMassage("가입되지 않은 정보입니다. 회원가입을 먼저 해주십시오.");
+
+        return ResponseEntity.status(404).body(signupResponse);
 
     }
 
