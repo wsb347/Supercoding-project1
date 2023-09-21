@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
-import java.security.SignatureException;
 import java.util.Optional;
 
 @Service
@@ -18,7 +17,6 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final JwtService jwtService;
-
 
     public String saveUser(UserDto userDto) {
         Optional<UserEntity> byEmailAndPassword = userRepository.findByEmailAndPassword(userDto.getEmail(), userDto.getPassword());
@@ -35,22 +33,16 @@ public class UserService {
     }
 
 
-
     public String userLogout(String token) {
         return getString(token);
-
-
     }
 
     private String getString(String token) {
-        if(jwtService.isTokenExpired(token)){
+        if (jwtService.isTokenExpired(token)) {
             return "만료된 토큰입니다";
         }
-        if(!jwtService.isPresent(token)){
+        if (!jwtService.isPresent(token)) {
             return "가입되지 않은 정보입니다. 토큰을 다시 한 번 확인해주세요";
         } else return "토큰을 강제 만료 시킵니다. 로그아웃 하였습니다.";
     }
 }
-
-
-

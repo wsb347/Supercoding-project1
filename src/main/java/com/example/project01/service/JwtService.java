@@ -37,12 +37,9 @@ public class JwtService {
     private String secretKey;
 
 
-
     // Create JWT
     public String encode(UserDto userDto) {
-
         Optional<UserEntity> byEmailAndPassword = userRepository.findByEmailAndPassword(userDto.getEmail(), userDto.getPassword());
-
         if(byEmailAndPassword.isPresent()) {
             LocalDateTime expiredAt = LocalDateTime.now().plusMinutes(10);
             Date date = Timestamp.valueOf(expiredAt);
@@ -56,6 +53,7 @@ public class JwtService {
                     .signWith(SignatureAlgorithm.HS256, secretKey)
                     .compact();
         } else return null;
+
     }
 
 
@@ -83,12 +81,18 @@ public class JwtService {
                 .getBody();
         String email = claims.getSubject();
 
-
         return userRepository.findByEmail(email).isPresent();
         // DB에 존재하면 true,
         // 없으면 false
+
+
+
     }
 
-}
+
+
+
+    }
+
 
 

@@ -6,11 +6,9 @@ import com.example.project01.service.JwtService;
 import com.example.project01.service.UserService.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpStatusCodeException;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ResourceBundle;
@@ -53,9 +51,6 @@ public class UserController {
             signupResponse.setMassage("가입되지 않은 정보입니다. 회원가입을 먼저 해주십시오.");
 
         return ResponseEntity.status(404).body(signupResponse);
-
-
-
 
     }
 
