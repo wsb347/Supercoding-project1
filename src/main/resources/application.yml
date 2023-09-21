@@ -15,5 +15,5 @@ spring:
     url: jdbc:mysql://localhost:3306/project01
     username: root
     password: qwe456
-    //password: soap18701!
-    driver-class-name: com.mysql.cj.jdbc.Driver
+#    password: soap18701!
+  driver-class-name: com.mysql.cj.jdbc.Driver
