@@ -13,6 +13,7 @@ spring:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
   datasource:
     url: jdbc:mysql://localhost:3306/project01
-    password: qwe456
     username: root
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    password: qwe456
+  #    password: soap18701!
+  driver-class-name: com.mysql.cj.jdbc.Driver
