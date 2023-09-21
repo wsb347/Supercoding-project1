@@ -8,5 +8,7 @@ import java.util.Optional;
 
 public interface HeartRepository extends JpaRepository<Heart, Long> {
 
+
+
     Optional<Heart> findByUserIdAndPostId(int userId, int postId);
 }
