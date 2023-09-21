@@ -20,10 +20,9 @@ public class ReplyController {
     public List<ReplyEntity> findAll(){
         return replyService.findAll();
     }
+
     @GetMapping("/comments/{post_id}")
-    public List<ReplyEntity> findByPostid(@RequestParam long post_id){
-
-
+    public List<ReplyEntity> findByPostid(@PathVariable long post_id){
         return replyService.findByPostid(post_id);
     }
 }
