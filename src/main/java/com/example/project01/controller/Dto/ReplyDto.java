@@ -1,5 +1,6 @@
 package com.example.project01.controller.Dto;
 
+import com.example.project01.Entity.PostEntity;
 import lombok.*;
 
 import javax.persistence.Column;
@@ -8,6 +9,7 @@ import javax.persistence.Column;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class ReplyDto {
     private long post_id;
 
