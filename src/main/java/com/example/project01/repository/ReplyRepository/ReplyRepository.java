@@ -9,6 +9,7 @@ import java.util.List;
 @Repository
 public interface ReplyRepository extends JpaRepository<ReplyEntity, Long> {
 
-   //  public List<ReplyEntity>  findAllByPost_id(long postId);
      public List<ReplyEntity>  findAllBy();
+
+    List<ReplyEntity> findAllByPost_Id(long postId);
 }
