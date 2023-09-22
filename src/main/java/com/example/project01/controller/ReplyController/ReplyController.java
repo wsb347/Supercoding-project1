@@ -41,5 +41,13 @@ public class ReplyController {
         return ResponseEntity.ok("댓글이 성공적으로 작성되었습니다.");
     }
 
+    @PutMapping("/comments/:comment_id")
+    public ResponseEntity<?> updateReply(@RequestBody ReplyDto replyDto, @RequestHeader("Token") String token) {
+        String author = jwtService.extractUserId(token);
+        replyDto.setAuthor(author);
+
+        replyService.updateReply(replyDto);
+        return ResponseEntity.ok("댓글이 성공적으로 수정되었습니다.");
+    }
 
 }
