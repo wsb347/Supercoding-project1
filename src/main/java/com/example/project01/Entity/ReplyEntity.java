@@ -1,0 +1,28 @@
+package com.example.project01.Entity;
+
+import lombok.*;
+
+import javax.persistence.*;
+
+@Entity
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Table(name = "reply")
+public class ReplyEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
+    @ManyToOne
+    @JoinColumn(name = "post_id")
+    private PostEntity post;
+
+    @Column(columnDefinition = "TEXT")
+    private String content;
+
+    private String author;
+}
