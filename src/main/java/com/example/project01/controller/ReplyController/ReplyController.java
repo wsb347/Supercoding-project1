@@ -1,7 +1,6 @@
 package com.example.project01.controller.ReplyController;
 
 import com.example.project01.Entity.Post;
-import com.example.project01.Entity.PostEntity;
 import com.example.project01.Entity.ReplyEntity;
 import com.example.project01.controller.Dto.ReplyDto;
 import com.example.project01.controller.Response;
@@ -48,11 +47,21 @@ public class ReplyController {
         String author = jwtService.extractUserId(token);
 
         if(author.equals(replyDto.getAuthor())){
-            replyService.updateReply(replyDto);
+            replyService.updateReply(replyDto, id);
             return ResponseEntity.ok("댓글이 성공적으로 수정되었습니다.");
         } else {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("작성한 댓글만 수정 가능합니다.");
         }
 
+    }
+
+    @DeleteMapping("/comments/{id}")
+    public ResponseEntity<?> deletePost(@PathVariable Long id) {
+        try {
+            replyService.deleteReply(id);
+            return ResponseEntity.ok().build();
+        } catch (NotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
