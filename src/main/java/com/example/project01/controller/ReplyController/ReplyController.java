@@ -48,7 +48,7 @@ public class ReplyController {
         String author = jwtService.extractUserId(token);
 
         if(author.equals(replyDto.getAuthor())){
-            replyService.updateReply(replyDto);
+            replyService.updateReply(id, replyDto);
             return ResponseEntity.ok("댓글이 성공적으로 수정되었습니다.");
         } else {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("작성한 댓글만 수정 가능합니다.");

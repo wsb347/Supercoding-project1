@@ -6,11 +6,13 @@ import com.example.project01.Entity.ReplyEntity;
 import com.example.project01.controller.Dto.ReplyDto;
 import com.example.project01.repository.ReplyRepository.ReplyRepository;
 import com.example.project01.repository.boardRepository.PostRepository;
+import com.example.project01.service.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -41,20 +43,17 @@ public class ReplyService {
         }
 
 
-        public void updateReply(ReplyDto replyDto) {
+        public ReplyEntity updateReply(Long id,ReplyDto replyDto) {
                 Post post = postRepository.findById(replyDto.getPost_id())
                         .orElseThrow(() -> new EntityNotFoundException("해당 ID의 게시물을 찾을 수 없습니다."));
 
-                ReplyEntity replyEntity = ReplyEntity.builder()
-                        .post(post)
-                        .author(replyDto.getAuthor())
-                        .content(replyDto.getContent())
-                        .build();
-
-                if (replyDto.getContent() != null) {
+                Optional<ReplyEntity> existingReply = replyRepository.findById(id);
+                if (existingReply.isPresent()) {
+                        ReplyEntity replyEntity = existingReply.get();
                         replyEntity.setContent(replyDto.getContent());
+                        return replyRepository.save(replyEntity);
+                } else {
+                        throw new NotFoundException("댓글을 찾을 수 없습니다.");
                 }
-
-                replyRepository.save(replyEntity);
         }
 }
