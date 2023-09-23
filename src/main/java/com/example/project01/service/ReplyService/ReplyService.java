@@ -42,7 +42,8 @@ public class ReplyService {
         }
 
 
-        public ReplyEntity updateReply(Long id,ReplyDto replyDto) {
+        public ReplyEntity updateReply(ReplyDto replyDto, long id) {
+                // 댓글 ID를 통해 데이터베이스에서 기존 댓글을 찾습니다.
                 Post post = postRepository.findById(replyDto.getPost_id())
                         .orElseThrow(() -> new EntityNotFoundException("해당 ID의 게시물을 찾을 수 없습니다."));
 
@@ -55,4 +56,14 @@ public class ReplyService {
                         throw new NotFoundException("댓글을 찾을 수 없습니다.");
                 }
         }
+
+        public void deleteReply(Long id) {
+                Optional<ReplyEntity> existingPost = replyRepository.findById(id);
+                if (existingPost.isPresent()) {
+                        replyRepository.deleteById(id);
+                } else {
+                        throw new NotFoundException("게시물을 찾을 수 없습니다.");
+                }
+        }
+
 }
