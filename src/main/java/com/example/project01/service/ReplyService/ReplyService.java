@@ -57,10 +57,12 @@ public class ReplyService {
                 }
         }
 
-        public void deleteReply(Long id) {
-                Optional<ReplyEntity> existingPost = replyRepository.findById(id);
-                if (existingPost.isPresent()) {
-                        replyRepository.deleteById(id);
+        public void deleteReply(ReplyDto replyDto, long id) {
+                Optional<ReplyEntity> existingReply = replyRepository.findById(id);
+                if (existingReply.isPresent()) {
+                        ReplyEntity replyEntity = existingReply.get();
+                        replyRepository.deleteById(replyEntity.getId());
+
                 } else {
                         throw new NotFoundException("게시물을 찾을 수 없습니다.");
                 }
