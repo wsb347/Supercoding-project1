@@ -25,7 +25,7 @@ public class PostController {
     }
 
     // 모든 게시물 조회
-    @GetMapping("/api/main")
+    @GetMapping("/posts")
     public List<Post> getAllPosts() {
         return postService.getAllPosts();
     }
