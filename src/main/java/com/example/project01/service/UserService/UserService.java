@@ -3,9 +3,11 @@ package com.example.project01.service.UserService;
 import com.example.project01.Entity.UserEntity;
 import com.example.project01.controller.Dto.UserDto;
 import com.example.project01.repository.UserRepository.UserRepository;
+import com.example.project01.service.CryptoService;
 import com.example.project01.service.JwtService;
 import com.example.project01.service.UserMapper;
 import lombok.RequiredArgsConstructor;
+import org.apache.catalina.User;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
@@ -17,13 +19,16 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final JwtService jwtService;
+    private final CryptoService cryptoService;
 
     public String saveUser(UserDto userDto) {
-        Optional<UserEntity> byEmailAndPassword = userRepository.findByEmailAndPassword(userDto.getEmail(), userDto.getPassword());
-        if (byEmailAndPassword.isPresent()) {
+        Optional<UserEntity> byEmail = userRepository.findByEmail(userDto.getEmail());
+        
+        if(byEmail.isPresent() && passwordMatch(userDto)){
             return "이미 가입된 정보입니다";
         } else {
 
+            passwordEncoding(userDto);
 
             UserEntity userEntity = UserMapper.INSTANCE.UserDtoToUserEntity(userDto);
             userRepository.save(userEntity);
@@ -37,6 +42,11 @@ public class UserService {
         return getString(token);
     }
 
+
+    private boolean passwordMatch(UserDto userDto) {
+        return cryptoService.passwordEncoder().matches(userDto.getPassword(), passwordEncoding(userDto).getPassword());
+    }
+
     private String getString(String token) {
         if (jwtService.isTokenExpired(token)) {
             return "만료된 토큰입니다";
@@ -44,5 +54,11 @@ public class UserService {
         if (!jwtService.isPresent(token)) {
             return "가입되지 않은 정보입니다. 토큰을 다시 한 번 확인해주세요";
         } else return "토큰을 강제 만료 시킵니다. 로그아웃 하였습니다.";
+    }
+
+    private UserDto passwordEncoding(UserDto userDto) {
+        String userEncodedPWD = cryptoService.passwordEncoder().encode(userDto.getPassword());
+        userDto.setPassword(userEncodedPWD);
+        return userDto;
     }
 }
