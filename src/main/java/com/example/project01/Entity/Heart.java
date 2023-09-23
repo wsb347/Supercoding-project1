@@ -2,8 +2,6 @@ package com.example.project01.Entity;
 
 import lombok.*;
 import javax.persistence.*;
-import java.time.LocalDateTime;
-import java.util.List;
 
 
 @Entity
@@ -18,14 +16,14 @@ public class Heart {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private long id;
 
     @Column(name = "post_id")
     @NonNull
-    private int postId;
+    private long postId;
 
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private User user;
+    private UserEntity user;
 }
