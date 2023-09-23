@@ -1,4 +1,4 @@
-package com.example.project01.Service;
+package com.example.project01.service;
 
 import com.example.project01.Entity.Heart;
 import com.example.project01.Repository.HeartRepository;
@@ -21,7 +21,7 @@ public class HeartService {
     public Heart addHeart(Heart heart) throws IOException {
         Heart h = Heart.builder()
                 .postId(heart.getPostId())
-                .userId(heart.getUserId())
+                .user(heart.getUser())
                 .build();
         return heartRepository.save(h);
     }
@@ -29,7 +29,7 @@ public class HeartService {
     public void removeHeart(Heart heart) throws IOException {
 
 
-        Optional<Heart> heartOpt = heartRepository.findByUserIdAndPostId(heart.getUserId(), heart.getPostId());
+        Optional<Heart> heartOpt = heartRepository.findByUserIdAndPostId(heart.getUser().getId(), heart.getPostId());
 
 
         heartRepository.delete(heartOpt.get());

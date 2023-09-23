@@ -1,4 +1,4 @@
-package com.example.project01.Repository;
+package com.example.project01.repository;
 
 import com.example.project01.Entity.Heart;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -9,5 +9,5 @@ public interface HeartRepository extends JpaRepository<Heart, Long> {
 
 
 
-    Optional<Heart> findByUserIdAndPostId(int userId, int postId);
+    Optional<Heart> findByUserIdAndPostId(long userId, long postId);
 }
