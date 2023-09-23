@@ -24,9 +24,6 @@ public class Heart {
     @NonNull
     private int postId;
 
-    @Column(name="user_id")
-    @NonNull
-    private int userId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
