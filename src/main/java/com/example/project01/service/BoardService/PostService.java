@@ -1,8 +1,8 @@
 package com.example.project01.service.BoardService;
 
-import com.example.project01.Entity.PostEntity;
+import com.example.project01.Entity.Post;
 import com.example.project01.repository.boardRepository.PostRepository;
-
+import com.example.project01.service.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,37 +12,50 @@ import java.util.Optional;
 @Service
 public class PostService {
 
-    private final PostRepository postRepository;
-
     @Autowired
-    public PostService(PostRepository postRepository) {
-        this.postRepository = postRepository;
+    private PostRepository postRepository;
+
+    // 게시물 생성
+    public Post createPost(Post post) {
+        return postRepository.save(post);
     }
 
-    public PostEntity save(PostEntity newPost) {
-        return postRepository.save(newPost);
-    }
-
-    public List<PostEntity> findAll() {
+    // 모든 게시물 조회
+    public List<Post> getAllPosts() {
         return postRepository.findAll();
     }
 
-
-    public String updatePost(Long postId, String newTitle, String newContent) {
-        // 1. 엔티티 조회
-        PostEntity postToUpdate = postRepository.findById(postId).orElse(null);
-
-        if (postToUpdate != null) {
-            // 2. 엔티티 수정
-            postToUpdate.setContent(newTitle, newContent);
-
-            // 3. 수정된 엔티티 저장
-            return postRepository.save(postToUpdate).toString();
-        }
-        else return null;
+    // 게시물 조회 by ID
+    public Optional<Post> getPostById(Long id) {
+        return postRepository.findById(id);
     }
 
-    public Optional<PostEntity> getById(Long postId){
-        return postRepository.findById(postId);
-    };
+    // 게시물 수정
+    public Post updatePost(Long id, Post updatedPost) {
+        Optional<Post> existingPost = postRepository.findById(id);
+        if (existingPost.isPresent()) {
+            Post post = existingPost.get();
+            post.setTitle(updatedPost.getTitle());
+            post.setContent(updatedPost.getContent());
+            return postRepository.save(post);
+        } else {
+            throw new NotFoundException("게시물을 찾을 수 없습니다.");
+        }
+    }
+
+    // 게시물 삭제
+    public void deletePost(Long id) {
+        Optional<Post> existingPost = postRepository.findById(id);
+        if (existingPost.isPresent()) {
+            postRepository.deleteById(id);
+        } else {
+            throw new NotFoundException("게시물을 찾을 수 없습니다.");
+        }
+    }
+
+    // 특정 이메일 로검색
+   /* public List<Post> getPostsByEmail(String email) {
+        return postRepository.findByEmail(email);
+    } */
 }
+
