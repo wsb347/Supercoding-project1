@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -19,5 +21,17 @@ public class UserEntity {
 
     @Column
     private String password;
+
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+
+
+
+    @OneToMany(mappedBy = "user")
+    private List<Heart> hearts = new ArrayList<Heart>();
+
 
 }
