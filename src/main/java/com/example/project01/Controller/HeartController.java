@@ -3,6 +3,7 @@ package com.example.project01.controller;
 import com.example.project01.Entity.Heart;
 import com.example.project01.Entity.UserEntity;
 import com.example.project01.controller.Dto.HeartRequest;
+import com.example.project01.controller.Dto.PostHeartRequest;
 import com.example.project01.service.HeartService;
 import com.example.project01.repository.UserRepository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,25 +25,9 @@ public class HeartController {
     private final UserRepository userRepository;
 
     @PostMapping("/like")
-    public ResponseEntity<Heart> addHeart(
-            @RequestBody HeartRequest heartRequest
-    ) throws IOException {
+    public ResponseEntity<PostHeartRequest> addHeart(@RequestBody HeartRequest heartRequest) {
 
-        // userId로 UserEntity 찾기 (예를 들어, UserRepository를 사용)
-        Optional<UserEntity> optionalUserEntity = userRepository.findById(heartRequest.getUser_id());
-        if (!optionalUserEntity.isPresent()) {
-            // 적절한 예외 처리
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        UserEntity userEntity = optionalUserEntity.get();
-
-        // 이제 userEntity를 사용하여 Heart 객체 생성
-        Heart heart = Heart.builder()
-                .user(userEntity)
-                .postId(heartRequest.getPost_id())
-                .build();
-
-        Heart result = heartService.addHeart(heart);
+        PostHeartRequest result = heartService.addHeart(heartRequest);
         return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
 
@@ -51,7 +36,7 @@ public class HeartController {
             @RequestBody HeartRequest heartRequest
 
     ) throws IOException {
-        Optional<UserEntity> optionalUserEntity = userRepository.findById(heartRequest.getUser_id());
+        Optional<UserEntity> optionalUserEntity = userRepository.findByEmail((heartRequest.getUser_id()));
 
         UserEntity userEntity = optionalUserEntity.get();
 

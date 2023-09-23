@@ -24,13 +24,8 @@ public class UserEntity {
     private String password;
 
 
-
-
-
-
     @JsonBackReference
     @OneToMany(mappedBy = "user")
     private List<Heart> hearts = new ArrayList<Heart>();
-
 
 }

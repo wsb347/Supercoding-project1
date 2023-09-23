@@ -5,7 +5,7 @@ import javax.persistence.*;
 
 
 @Entity
-@Table(name = "heart")
+@Table(name = "`like`")
 @Getter
 @Setter
 @Builder
@@ -13,17 +13,14 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class Heart {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
     @Column(name = "post_id")
-    @NonNull
     private long postId;
 
-
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private UserEntity user;
 }

@@ -1,10 +1,8 @@
 package com.example.project01.controller.Dto;
 
-import com.example.project01.Entity.UserEntity;
+import com.example.project01.Entity.Heart;
+import com.example.project01.Entity.Post;
 import lombok.*;
-
-import javax.persistence.*;
-
 
 
 @Getter
@@ -12,9 +10,8 @@ import javax.persistence.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class HeartRequest {
+public class PostHeartRequest {
 
-    private long post_id;
-
-    private String user_id;
+    private Post post;
+    private HeartRequest heartRequest;
 }

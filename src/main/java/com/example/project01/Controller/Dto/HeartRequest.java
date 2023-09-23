@@ -16,5 +16,5 @@ public class HeartRequest {
 
     private long post_id;
 
-    private long user_id;
+    private String user_id;
 }
