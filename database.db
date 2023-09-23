@@ -1,0 +1,40 @@
+create DATABASE project01;
+
+use project01;
+
+CREATE TABLE `post` (
+    `id` INT auto_increment primary key,
+    `author` VARCHAR(50) NOT NULL,
+    `title` VARCHAR(45) NULL,
+    `content` TEXT NULL,
+    `create_at` TIMESTAMP NULL default CURRENT_TIMESTAMP
+);
+
+CREATE TABLE `reply` (
+    `id` INT auto_increment primary key,
+    `post_id` INT NOT NULL,
+    `content` VARCHAR(45) NULL,
+    `author` VARCHAR(50) NULL,
+    `create_at` TIMESTAMP NULL default CURRENT_TIMESTAMP
+);
+
+CREATE TABLE `user` (
+    `id` INT auto_increment primary key,
+    `email` VARCHAR(50) NOT NULL,
+    `password` VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE `like` (
+    `id` INT NOT NULL,
+    `post_id` INT    NOT NULL,
+    `user_id` varchar(50)    NOT NULL
+);
+ALTER TABLE `reply`
+MODIFY COLUMN `author` VARCHAR(50) NULL;
+
+CREATE INDEX user_email_index ON user (email);
+ALTER TABLE `post` ADD FOREIGN KEY (`author`) REFERENCES `user` (`email`);
+ALTER TABLE `reply` ADD FOREIGN KEY (`author`) REFERENCES `user` (`email`);
+ALTER TABLE `reply` ADD FOREIGN KEY (`post_id`) REFERENCES `post` (`id`);
+ALTER TABLE `like` ADD FOREIGN KEY (`post_id`) REFERENCES `post` (`id`);
+ALTER TABLE `like` ADD FOREIGN KEY (`user_id`) REFERENCES `user` (`email`);
