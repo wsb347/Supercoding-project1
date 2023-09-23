@@ -19,7 +19,7 @@ public class ReplyEntity {
 
     @ManyToOne
     @JoinColumn(name = "post_id")
-    private PostEntity post;
+    private Post post;
 
     @Column(columnDefinition = "TEXT")
     private String content;

@@ -1,5 +1,6 @@
 package com.example.project01.service.ReplyService;
 
+import com.example.project01.Entity.Post;
 import com.example.project01.Entity.PostEntity;
 import com.example.project01.Entity.ReplyEntity;
 import com.example.project01.controller.Dto.ReplyDto;
@@ -27,12 +28,11 @@ public class ReplyService {
         }
 
         public void saveReply(ReplyDto replyDto) {
-                // replyDto에서 post_id를 이용하여 실제 PostEntity를 가져옵니다.
-                PostEntity postEntity = postRepository.findById(replyDto.getPost_id())
+                Post post = postRepository.findById(replyDto.getPost_id())
                         .orElseThrow(() -> new EntityNotFoundException("해당 ID의 게시물을 찾을 수 없습니다."));
 
                 ReplyEntity replyEntity = ReplyEntity.builder()
-                        .post(postEntity)
+                        .post(post)
                         .author(replyDto.getAuthor())
                         .content(replyDto.getContent())
                         .build();
@@ -41,5 +41,20 @@ public class ReplyService {
         }
 
 
+        public void updateReply(ReplyDto replyDto) {
+                Post post = postRepository.findById(replyDto.getPost_id())
+                        .orElseThrow(() -> new EntityNotFoundException("해당 ID의 게시물을 찾을 수 없습니다."));
 
+                ReplyEntity replyEntity = ReplyEntity.builder()
+                        .post(post)
+                        .author(replyDto.getAuthor())
+                        .content(replyDto.getContent())
+                        .build();
+
+                if (replyDto.getContent() != null) {
+                        replyEntity.setContent(replyDto.getContent());
+                }
+
+                replyRepository.save(replyEntity);
+        }
 }
