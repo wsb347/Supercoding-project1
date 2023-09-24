@@ -26,6 +26,7 @@ public class Post {
     @Column(name = "content")
     private String content;
 
+
     public Post(Long id, String author, String title, String content) {
         this.id = id;
         this.author = author;

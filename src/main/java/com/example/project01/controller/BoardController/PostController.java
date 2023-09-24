@@ -1,10 +1,11 @@
-package com.example.project01.controller.BoardController;
+package com.example.project01.Controller.BoardController;
 
 
 import com.example.project01.Entity.Post;
-import com.example.project01.service.BoardService.PostService;
+import com.example.project01.Service.BoardService.PostService;
 import com.example.project01.service.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,13 +21,20 @@ public class PostController {
 
     // 게시물 생성
     @PostMapping("/posts")
-    public Post createPost(@RequestBody Post post) {
-        return postService.createPost(post);
+    public ResponseEntity<String> createPost(@RequestBody Post post) {
+
+        Post createdPost = postService.createPost(post);
+        if (createdPost != null) {
+            return ResponseEntity.status(HttpStatus.CREATED).body("게시물이 생성되었습니다");
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("게시물 생성에 실패했습니다");
+        }
     }
 
     // 모든 게시물 조회
     @GetMapping("/posts")
     public List<Post> getAllPosts() {
+
         return postService.getAllPosts();
     }
 
@@ -63,9 +71,10 @@ public class PostController {
         }
     }
 
-    // 추가: 이메일로 게시물 검색 API
-    /*@GetMapping("/byEmail")
-    public List<Post> getPostsByEmail(@RequestParam String email) {
-        return postService.getPostsByEmail(email);
-    }*/
+    //추가: 이메일로 게시물 검색 API
+    @GetMapping("/byEmail")
+    public String getPostByAuthor(@RequestParam String author) {
+        // author 매개변수를 사용하여 로직 수행
+        return "Requested author: " + author;
+    }
 }
