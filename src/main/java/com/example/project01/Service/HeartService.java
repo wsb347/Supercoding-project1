@@ -43,7 +43,7 @@ public class HeartService {
         System.out.println("heartRequest.getUser_id() : " + heartRequest.getUser_id());
         System.out.println("heartRequest.getPost_id() : " + heartRequest.getPost_id());
         var isHeart = heartRepository.findHeartByUserIdAndPostId(heartRequest.getUser_id(), heartRequest.getPost_id());
-        if(isHeart != null){
+        if(isHeart.isPresent()){
             throw new RuntimeException("이미 좋아요를 눌렀습니다.");
         }
         Heart heart = Heart.builder()
