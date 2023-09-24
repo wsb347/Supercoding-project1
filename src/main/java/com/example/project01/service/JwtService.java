@@ -1,12 +1,5 @@
 package com.example.project01.service;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTVerifier;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.auth0.jwt.interfaces.Claim;
-import com.auth0.jwt.interfaces.DecodedJWT;
-import com.example.project01.Entity.UserEntity;
 import com.example.project01.controller.Dto.UserDto;
 import com.example.project01.repository.UserRepository.UserRepository;
 import io.jsonwebtoken.Claims;
@@ -18,13 +11,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
-import java.nio.charset.StandardCharsets;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Date;
-import java.util.Map;
-import java.util.Optional;
 
 @Service
 @Slf4j

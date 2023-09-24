@@ -7,8 +7,6 @@ import com.example.project01.service.CryptoService;
 import com.example.project01.service.JwtService;
 import com.example.project01.service.UserMapper;
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.User;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;

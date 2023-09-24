@@ -4,7 +4,6 @@ import com.example.project01.Entity.ReplyEntity;
 import com.example.project01.controller.Dto.ReplyDto;
 import com.example.project01.service.JwtService;
 import com.example.project01.service.ReplyService.ReplyService;
-import com.example.project01.service.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

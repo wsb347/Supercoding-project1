@@ -7,7 +7,6 @@ import com.example.project01.controller.Dto.PostHeartRequest;
 import com.example.project01.repository.UserRepository.UserRepository;
 import com.example.project01.service.HeartService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
