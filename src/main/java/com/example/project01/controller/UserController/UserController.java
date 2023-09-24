@@ -39,11 +39,12 @@ public class UserController {
     public ResponseEntity<Response> userLogin(@RequestBody UserDto userDto){
         Response signupResponse = new Response();
 
-        if(jwtService.encode(userDto) != null) {
+        String token = userService.userLogin(userDto);
+
+        if(token != null) {
             HttpHeaders headers = new HttpHeaders();
 
-            String encoded = jwtService.encode(userDto);
-            headers.setBearerAuth(encoded);
+            headers.setBearerAuth(token);
             signupResponse.setMassage("로그인 성공, JWT 생성이 완료되었습니다");
             return ResponseEntity.status(200).headers(headers).body(signupResponse);
 
