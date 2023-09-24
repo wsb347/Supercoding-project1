@@ -1,6 +1,6 @@
 package com.example.project01.service;
 
-import com.example.project01.Entity.UserEntity;
+import com.example.project01.entity.UserEntity;
 import com.example.project01.controller.Dto.UserDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;

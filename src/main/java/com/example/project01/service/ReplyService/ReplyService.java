@@ -1,7 +1,7 @@
 package com.example.project01.service.ReplyService;
 
-import com.example.project01.Entity.Post;
-import com.example.project01.Entity.ReplyEntity;
+import com.example.project01.entity.Post;
+import com.example.project01.entity.ReplyEntity;
 import com.example.project01.controller.Dto.ReplyDto;
 import com.example.project01.repository.ReplyRepository.ReplyRepository;
 import com.example.project01.repository.boardRepository.PostRepository;

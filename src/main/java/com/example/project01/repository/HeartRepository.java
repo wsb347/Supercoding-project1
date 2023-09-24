@@ -1,6 +1,6 @@
 package com.example.project01.repository;
 
-import com.example.project01.Entity.Heart;
+import com.example.project01.entity.Heart;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

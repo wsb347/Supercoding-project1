@@ -1,7 +1,7 @@
 package com.example.project01.controller;
 
-import com.example.project01.Entity.Heart;
-import com.example.project01.Entity.UserEntity;
+import com.example.project01.entity.Heart;
+import com.example.project01.entity.UserEntity;
 import com.example.project01.controller.Dto.HeartRequest;
 import com.example.project01.controller.Dto.PostHeartRequest;
 import com.example.project01.repository.UserRepository.UserRepository;

@@ -1,6 +1,6 @@
 package com.example.project01.controller.Dto;
 
-import com.example.project01.Entity.Post;
+import com.example.project01.entity.Post;
 import lombok.*;
 
 

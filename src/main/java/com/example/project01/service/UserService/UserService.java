@@ -1,6 +1,6 @@
 package com.example.project01.service.UserService;
 
-import com.example.project01.Entity.UserEntity;
+import com.example.project01.entity.UserEntity;
 import com.example.project01.controller.Dto.UserDto;
 import com.example.project01.repository.UserRepository.UserRepository;
 import com.example.project01.service.CryptoService;

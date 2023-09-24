@@ -1,8 +1,8 @@
-package com.example.project01.Controller.BoardController;
+package com.example.project01.controller.BoardController;
 
 
-import com.example.project01.Entity.Post;
-import com.example.project01.Service.BoardService.PostService;
+import com.example.project01.entity.Post;
+import com.example.project01.service.BoardService.PostService;
 import com.example.project01.service.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

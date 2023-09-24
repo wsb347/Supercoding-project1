@@ -1,7 +1,7 @@
-package com.example.project01.Service.BoardService;
+package com.example.project01.service.BoardService;
 
-import com.example.project01.Entity.Post;
-import com.example.project01.Repository.boardRepository.PostRepository;
+import com.example.project01.entity.Post;
+import com.example.project01.repository.boardRepository.PostRepository;
 import com.example.project01.service.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
