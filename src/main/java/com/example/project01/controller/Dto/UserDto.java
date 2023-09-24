@@ -6,9 +6,9 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@RequiredArgsConstructor
 public class UserDto {
+
     private String email;
-    @NonNull
     private String password;
+
 }

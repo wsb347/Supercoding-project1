@@ -21,19 +21,25 @@ public class UserService {
 
     public String saveUser(UserDto userDto) {
         Optional<UserEntity> byEmail = userRepository.findByEmail(userDto.getEmail());
-        
-        if(byEmail.isPresent() && passwordMatch(userDto)){
-            return "이미 가입된 정보입니다";
-        } else {
 
-            passwordEncoding(userDto);
+        if (byEmail.isPresent()) {
 
-            UserEntity userEntity = UserMapper.INSTANCE.UserDtoToUserEntity(userDto);
-            userRepository.save(userEntity);
-            return "회원가입이 완료되었습니다";
+                return "이미 가입된 정보입니다, 같은 email이 등록되어 있습니다.";
+            } else {
 
+                passwordEncoding(userDto);
+
+                UserEntity userEntity = UserMapper.INSTANCE.UserDtoToUserEntity(userDto);
+                userRepository.save(userEntity);
+                return "회원가입이 완료되었습니다";
+
+            }
         }
-    }
+
+
+
+
+
 
 
     public String userLogout(String token) {
@@ -44,19 +50,16 @@ public class UserService {
     public String userLogin(UserDto userDto) {
         Optional<UserEntity> byEmail = userRepository.findByEmail(userDto.getEmail());
 
-
-        if (byEmail.isPresent() && passwordMatch(userDto)){
-            return jwtService.encode(userDto);
-        }
-
-        else return null;
+        if(byEmail.isPresent()) {
+            String password = byEmail.get().getPassword();
+            boolean matches = cryptoService.passwordEncoder().matches(userDto.getPassword(), password);
+            if (matches){
+                return jwtService.encode(userDto);
+            }  else return null;
+        } else return null;
     }
 
 
-
-    private boolean passwordMatch(UserDto userDto) {
-        return cryptoService.passwordEncoder().matches(userDto.getPassword(), passwordEncoding(userDto).getPassword());
-    }
 
     private String getString(String token) {
         if (jwtService.isTokenExpired(token)) {
