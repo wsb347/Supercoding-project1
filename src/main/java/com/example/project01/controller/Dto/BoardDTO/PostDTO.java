@@ -1,9 +1,6 @@
-package com.example.project01.controller.Dto.BoardDTO;
+package com.example.project01.Controller.Dto.BoardDTO;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 @Getter
 @Setter

@@ -1,7 +1,7 @@
-package com.example.project01.service.BoardService;
+package com.example.project01.Service.BoardService;
 
 import com.example.project01.Entity.Post;
-import com.example.project01.repository.boardRepository.PostRepository;
+import com.example.project01.Repository.boardRepository.PostRepository;
 import com.example.project01.service.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -54,8 +54,8 @@ public class PostService {
     }
 
     // 특정 이메일 로검색
-   /* public List<Post> getPostsByEmail(String email) {
-        return postRepository.findByEmail(email);
-    } */
+   public List<Post> getPostsByAuthor(String author) {
+        return postRepository.findByAuthor(author);
+    }
 }
 
