@@ -54,12 +54,15 @@ public class ReplyController {
     }
 
     @DeleteMapping("/comments/{id}")
-    public ResponseEntity<?> deletePost(@PathVariable Long id) {
-        try {
-            replyService.deleteReply(id);
-            return ResponseEntity.ok().build();
-        } catch (NotFoundException e) {
-            return ResponseEntity.notFound().build();
+    public ResponseEntity<?> deletePost(@PathVariable Long id, @RequestBody ReplyDto replyDto, @RequestHeader("Token") String token) {
+        String author = jwtService.extractUserId(token);
+
+        if(author.equals(replyDto.getAuthor())){
+            replyService.deleteReply(replyDto, id);
+            return ResponseEntity.ok("댓글이 성공적으로 삭제되었습니다.");
+        } else {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("작성한 댓글만 삭제 가능합니다.");
         }
     }
 }
+
