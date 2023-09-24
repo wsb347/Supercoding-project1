@@ -43,6 +43,19 @@ public class UserService {
     }
 
 
+    public String userLogin(UserDto userDto) {
+        Optional<UserEntity> byEmail = userRepository.findByEmail(userDto.getEmail());
+
+
+        if (byEmail.isPresent() && passwordMatch(userDto)){
+            return jwtService.encode(userDto);
+        }
+
+        else return null;
+    }
+
+
+
     private boolean passwordMatch(UserDto userDto) {
         return cryptoService.passwordEncoder().matches(userDto.getPassword(), passwordEncoding(userDto).getPassword());
     }
@@ -53,7 +66,7 @@ public class UserService {
         }
         if (!jwtService.isPresent(token)) {
             return "가입되지 않은 정보입니다. 토큰을 다시 한 번 확인해주세요";
-        } else return "토큰을 강제 만료 시킵니다. 로그아웃 하였습니다.";
+        } else return "로그아웃 하였습니다.";
     }
 
     private UserDto passwordEncoding(UserDto userDto) {

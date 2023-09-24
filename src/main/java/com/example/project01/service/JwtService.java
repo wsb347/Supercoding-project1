@@ -39,8 +39,6 @@ public class JwtService {
 
     // Create JWT
     public String encode(UserDto userDto) {
-        Optional<UserEntity> byEmailAndPassword = userRepository.findByEmailAndPassword(userDto.getEmail(), userDto.getPassword());
-        if(byEmailAndPassword.isPresent()) {
             LocalDateTime expiredAt = LocalDateTime.now().plusMinutes(10);
             Date date = Timestamp.valueOf(expiredAt);
 
@@ -52,9 +50,9 @@ public class JwtService {
                     .setExpiration(date)
                     .signWith(SignatureAlgorithm.HS256, secretKey)
                     .compact();
-        } else return null;
+        }
 
-    }
+
 
 
     public boolean isTokenExpired(String token) {
