@@ -33,13 +33,6 @@ public class HeartService {
         Optional<Post> optionalPostEntity = postRepository.findById(heartRequest.getPost_id());
         Post post = optionalPostEntity.orElseThrow(() -> new NotFoundException("게시물을 찾을 수 없습니다."));
 
-        if (userRepository == null) {
-            log.error("userRepository NULL");
-        }
-
-        if (heartRequest == null || heartRequest.getUser_id() == null) {
-            log.error("heartRequest OR heartRequest NULL");
-        }
         var isHeart = heartRepository.findHeartByUserIdAndPostId(heartRequest.getUser_id(), heartRequest.getPost_id());
         if(isHeart.isPresent()){
             throw new RuntimeException("이미 좋아요를 눌렀습니다.");
@@ -63,6 +56,11 @@ public class HeartService {
 
     public void removeHeart(Heart heart) throws IOException {
         Optional<Heart> heartOpt = heartRepository.findHeartByUserIdAndPostId(heart.getUser().getEmail(), heart.getPostId());
+
+        if (!heartOpt.isPresent()) {
+            throw new IOException("좋아요 정보를 찾을 수 없습니다.");
+        }
+
         long deleteHeart = heartOpt.get().getId();
         heartRepository.deleteById(deleteHeart);
     }
