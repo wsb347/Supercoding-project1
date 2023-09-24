@@ -14,4 +14,5 @@ public class PostHeartRequest {
 
     private Post post;
     private HeartRequest heartRequest;
+    private long heart;
 }

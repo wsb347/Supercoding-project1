@@ -21,6 +21,6 @@ public class Heart {
     private long postId;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", referencedColumnName = "email")
     private UserEntity user;
 }
