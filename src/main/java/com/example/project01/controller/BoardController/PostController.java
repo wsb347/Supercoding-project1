@@ -72,9 +72,9 @@ public class PostController {
     }
 
     //추가: 이메일로 게시물 검색 API
-    @GetMapping("/byEmail")
-    public String getPostByAuthor(@RequestParam String author) {
+    @GetMapping("/byEmail/{email}")
+    public List<Post> getPostByAuthor(@PathVariable(name = "email") String author) {
         // author 매개변수를 사용하여 로직 수행
-        return "Requested author: " + author;
+        return postService.getPostsByAuthor(author);
     }
 }
