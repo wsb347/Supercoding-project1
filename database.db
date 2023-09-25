@@ -21,7 +21,7 @@ CREATE TABLE `reply` (
 CREATE TABLE `user` (
     `id` INT auto_increment primary key,
     `email` VARCHAR(50) NOT NULL,
-    `password` VARCHAR(50) NOT NULL
+    `password` VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE `like` (
